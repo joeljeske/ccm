@@ -1,0 +1,33 @@
+{
+  "name": "@ccm/webpack-loader",
+  "version": "0.0.0",
+  "description": "Webpack Loaders for CCM ",
+  "keywords": [
+    "CCM",
+    "CSS",
+    "CSS-Component-Modules",
+    "Webpack",
+    "Webpack-Loader"
+  ],
+  "author": "Joel Jeske <joeljeske14@gmail.com>",
+  "homepage": "https://github.com/joeljeske/ccm#readme",
+  "license": "MIT",
+  "main": "lib/webpack-loader.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joeljeske/ccm.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/joeljeske/ccm/issues"
+  }
+}
