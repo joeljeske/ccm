@@ -16,20 +16,4 @@ export const <%= name %> = createComponent(
   /* CSS Custom Property Mappings */
   <%= JSON.stringify(properties, null, 4) %>
 );
-
-/** <%= name %> Props */
-export interface <%= name %>CCM {
-  /** <%= name %> Component Custom Properties */
-  <%= Object.keys(properties)
-    .map((p) => `'${p}': string;`)
-    .join('\n  ')
-    .trim() || '// No custom properties found' %>
-
-  /** <%= name %> Modifier Flags */
-  <%= Object.keys(modifiers)
-    .map((s) => `'${s}'?: boolean;`)
-    .join('\n  ')
-    .trim() || '// No modifiers classes found' %>
-};
-
 <% }); %>

@@ -1,5 +1,5 @@
 /* Auto generated CSS file from: "test.ccm.css" */
-/* eslint:disable */
+/* eslint-disable */
 /* tslint:disable */
 
 import { createComponent } from 'packages/react-runtime';
@@ -10,14 +10,14 @@ import './test.css';
 export const SomeComponent = createComponent(
   "SomeComponent",
   /* Base Element Class */
-  "SomeComponent_6530b077392c8fe0",
+  "SomeComponent_ef0e77540e94a84d",
   /* CSS Modifier Class Mappings */
   {
-    "$otherClass": "otherClass_a9596439be9ae5d5"
+    "$otherClass": "otherClass_09c803cf3e341270"
 },
   /* CSS Custom Property Mappings */
   {
-    "$--prop1": "--prop1_f64e3111fbe3ec39"
+    "$--prop1": "--prop1_9a1684ce0a4c0ed7"
 }
 );
 

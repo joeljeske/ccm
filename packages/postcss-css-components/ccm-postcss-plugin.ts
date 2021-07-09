@@ -19,7 +19,6 @@ export const createCcmPlugin = (opts: PostcssCCMOptions = {}): Plugin => ({
       );
     }
 
-
     const file = new CCMFile(
       filePath,
       selectGenerateScopedNameFn(opts.generateScopedName)
