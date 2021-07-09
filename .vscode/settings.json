@@ -1,0 +1,31 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.watcherExclude": {
+    ".git": true,
+    "**/bazel-out/**": true,
+    "**/.bazel/**": true
+  },
+  "search.exclude": {
+    "**/bazel-out": true,
+    "**/.bazel": true
+  },
+  "files.associations": {
+    "*.md": "mdx"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  ],
+  "[bazel]": {
+    "editor.formatOnSave": false
+  },
+  "[bzl]": {
+    "editor.formatOnSave": false
+  },
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "javascript.format.enable": false,
+  "typescript.format.enable": false
+}

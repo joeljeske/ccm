@@ -1,7 +1,44 @@
 {
-  "name": "root",
-  "private": true,
-  "devDependencies": {
-    "lerna": "^3.6.0"
-  }
+    "name": "css-components",
+    "version": "1.0.0",
+    "description": "CSS Component Modules - CCM",
+    "author": "Joel Jeske <joeljeske14@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/joeljeske/ccm.git"
+    },
+    "bugs": {
+        "url": "https://github.com/joeljeske/ccm/issues"
+    },
+    "homepage": "https://github.com/joeljeske/ccm#readme",
+    "license": "MIT",
+    "keywords": [],
+    "dependencies": {
+        "css-selector-tokenizer": "0.8.0",
+        "lodash.template": "4.5.0",
+        "postcss": "8.3.5",
+        "postcss-modules": "4.1.3"
+    },
+    "devDependencies": {
+        "@bazel/jasmine": "3.6.0",
+        "@bazel/typescript": "3.6.0",
+        "@rollup/plugin-commonjs": "19.0.0",
+        "@rollup/plugin-node-resolve": "13.0.0",
+        "@types/css-selector-tokenizer": "0.7.0",
+        "@types/lodash.template": "4.5.0",
+        "@types/minimist": "1.2.1",
+        "@types/node": "15.12.5",
+        "@types/react": "17.0.14",
+        "@typescript-eslint/eslint-plugin": "4.28.1",
+        "@typescript-eslint/parser": "4.28.1",
+        "eslint": "7.29.0",
+        "eslint-config-prettier": "8.3.0",
+        "eslint-plugin-prettier": "3.4.0",
+        "minimist": "1.2.5",
+        "prettier": "2.3.2",
+        "rollup": "2.52.3",
+        "tslib": "2.3.0",
+        "typescript": "4.3.4"
+    },
+    "peerDependencies": {}
 }

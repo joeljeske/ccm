@@ -1,0 +1,35 @@
+/* Auto generated CSS file from: "<%= fileBasename %>" */
+/* eslint:disable */
+/* tslint:disable */
+
+import { createComponent } from '<%= runtimeModule %>';
+import './<%= fileBasename.replace('.ccm.css', '.css') %>';
+
+<% components.forEach(({ name, base, modifiers, properties }) => { %>
+/** Base <%= name %> component */
+export const <%= name %> = createComponent(
+  <%= JSON.stringify(name) %>,
+  /* Base Element Class */
+  <%= JSON.stringify(base) %>,
+  /* CSS Modifier Class Mappings */
+  <%= JSON.stringify(modifiers, null, 4) %>,
+  /* CSS Custom Property Mappings */
+  <%= JSON.stringify(properties, null, 4) %>
+);
+
+/** <%= name %> Props */
+export interface <%= name %>CCM {
+  /** <%= name %> Component Custom Properties */
+  <%= Object.keys(properties)
+    .map((p) => `'${p}': string;`)
+    .join('\n  ')
+    .trim() || '// No custom properties found' %>
+
+  /** <%= name %> Modifier Flags */
+  <%= Object.keys(modifiers)
+    .map((s) => `'${s}'?: boolean;`)
+    .join('\n  ')
+    .trim() || '// No modifiers classes found' %>
+};
+
+<% }); %>

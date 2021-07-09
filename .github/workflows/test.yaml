@@ -1,0 +1,25 @@
+name: Test Packages
+
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install Bazel
+        run: npm --global install @bazel/bazelisk@latest
+
+      - name: Test Packages
+        run: bazel test //... --config ci

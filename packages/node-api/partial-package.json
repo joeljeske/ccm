@@ -1,0 +1,17 @@
+{
+  "name": "packages/node-api",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "NodeJS API for interacting with CSS Component Modules - CCM",
+  "main": "main.js",
+  "types": "index.d.ts",
+  "keywords": [
+    "CSS",
+    "CCM",
+    "CSS-in-JS"
+  ],
+  "dependencies": {
+    "packages/templates": "0.0.0-PLACEHOLDER"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

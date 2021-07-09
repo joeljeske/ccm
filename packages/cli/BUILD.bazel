@@ -1,0 +1,77 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "copy_to_bin", "nodejs_binary", "pkg_npm")
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@npm//rollup:index.bzl", "rollup")
+load("//tools/create-npm-json:index.bzl", "create_npm_json")
+load("//:npm_substitutions.bzl", "npm_substitutions")
+
+ts_library(
+    name = "compile",
+    srcs = glob(["*.ts"]),
+    module_name = package_name(),
+    deps = [
+        "//packages/node-api:compile",
+        "@npm//@types/minimist",
+        "@npm//@types/node",
+    ],
+)
+
+filegroup(
+    name = "esm",
+    srcs = [
+        "compile",
+        "//packages/node-api:compile",
+        "//packages/postcss-css-components:compile",
+    ],
+    output_group = "es6_sources",
+)
+
+rollup(
+    name = "bundle",
+    outs = ["main.js"],
+    args = [
+        "$(RULEDIR)",
+        "--file $@",
+        "--format cjs",
+        "--exports named",
+        "--silent",
+        "--plugin @rollup/plugin-node-resolve",
+        "--plugin @rollup/plugin-commonjs",
+    ],
+    data = [
+        "esm",
+        "@npm//@rollup/plugin-commonjs",
+        "@npm//@rollup/plugin-node-resolve",
+        "@npm//css-selector-tokenizer",
+        "@npm//lodash.template",
+        "@npm//minimist",
+        "@npm//postcss",
+        "@npm//postcss-modules",
+    ],
+)
+
+copy_to_bin(
+    name = "srcs",
+    srcs = ["ccm.js"],
+)
+
+nodejs_binary(
+    name = "cli",
+    data = [
+        "main.js",
+        "//packages/templates:npm",
+    ],
+    entry_point = ":srcs",
+    visibility = ["//visibility:public"],
+)
+
+create_npm_json(name = "package-json")
+
+pkg_npm(
+    name = "npm",
+    substitutions = npm_substitutions,
+    deps = [
+        "ccm.js",
+        ":bundle",
+        ":package.json",
+    ],
+)

@@ -1,0 +1,19 @@
+{
+  "name": "packages/cli",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "CLI Interface for interacting with CSS Component Modules - CCM",
+  "main": "main.js",
+  "bin": {
+    "ccm": "ccm.js,"
+  },
+  "keywords": [
+    "CSS",
+    "CCM",
+    "CSS-in-JS"
+  ],
+  "dependencies": {
+    "packages/templates": "0.0.0-PLACEHOLDER"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

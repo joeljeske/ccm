@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "source": "./file.css.ejs",
+      "outputName": "<%= fileBasename.replace('.ccm.css', '.css') %>"
+    },
+    {
+      "source": "./file.ts.ejs",
+      "outputName": "<%= fileBasename %>.ts"
+    }
+  ]
+}

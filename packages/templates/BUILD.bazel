@@ -1,0 +1,20 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_npm")
+load("//tools/create-npm-json:index.bzl", "create_npm_json")
+load("//:npm_substitutions.bzl", "npm_substitutions")
+
+create_npm_json(name = "package-json")
+
+pkg_npm(
+    name = "npm",
+    package_name = package_name(),
+    srcs = glob(
+        [
+            "**/*.ejs",
+            "**/*.json",
+        ],
+        exclude = ["partial-package.json"],
+    ),
+    substitutions = npm_substitutions,
+    visibility = ["//visibility:public"],
+    deps = ["package.json"],
+)

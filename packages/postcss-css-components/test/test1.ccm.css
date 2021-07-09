@@ -1,0 +1,7 @@
+SomeComponent.test {
+    color: var(--myColor);
+}
+
+OtherComponent.test {
+  color: var(--myColor);
+}

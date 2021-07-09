@@ -1,0 +1,73 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_npm")
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@npm//rollup:index.bzl", "rollup")
+load("//tools/create-npm-json:index.bzl", "create_npm_json")
+load("//:npm_substitutions.bzl", "npm_substitutions")
+
+ts_library(
+    name = "compile",
+    srcs = glob(["*.ts"]),
+    module_name = package_name(),
+    deps = [
+        "@npm//@types/react",
+    ],
+)
+
+filegroup(
+    name = "dts",
+    srcs = ["compile"],
+)
+
+filegroup(
+    name = "esm",
+    srcs = ["compile"],
+    output_group = "es6_sources",
+)
+
+rollup(
+    name = "bundle-esm",
+    outs = ["esm/main.js"],
+    args = [
+        "$(RULEDIR)",
+        "--file $@",
+        "--format esm",
+        "--exports named",
+        "--silent",
+        "--plugin @rollup/plugin-node-resolve",
+    ],
+    data = [
+        "esm",
+        "@npm//@rollup/plugin-node-resolve",
+    ],
+)
+
+rollup(
+    name = "bundle-cjs",
+    outs = ["cjs/main.js"],
+    args = [
+        "$(RULEDIR)",
+        "--file $@",
+        "--format cjs",
+        "--exports named",
+        "--silent",
+        "--plugin @rollup/plugin-node-resolve",
+    ],
+    data = [
+        "esm",
+        "@npm//@rollup/plugin-node-resolve",
+    ],
+)
+
+create_npm_json(name = "package-json")
+
+pkg_npm(
+    name = "npm",
+    package_name = "@ccm/react-runtime",
+    substitutions = npm_substitutions,
+    deps = [
+        ":bundle-cjs",
+        ":bundle-esm",
+        ":dts",
+        ":package.json",
+    ],
+)

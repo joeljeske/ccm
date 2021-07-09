@@ -1,0 +1,12 @@
+.SomeComponent.test {
+    color: var(--myColor_614b9b9db0c25f66);
+}
+
+.OtherComponent.test {
+  color: var(--myColor_614b9b9db0c25f66);
+}
+
+:export {
+    __CCM_METADATA_EXPORT__: eyJTb21lQ29tcG9uZW50Ijp7Im1vZGlmaWVycyI6WyJ0ZXN0Il0sInByb3BlcnRpZXMiOlsiLS1teUNvbG9yIl19LCJPdGhlckNvbXBvbmVudCI6eyJtb2RpZmllcnMiOlsidGVzdCJdLCJwcm9wZXJ0aWVzIjpbIi0tbXlDb2xvciJdfX0=;
+    --myColor: --myColor_614b9b9db0c25f66;
+}

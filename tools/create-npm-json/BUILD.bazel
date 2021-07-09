@@ -1,0 +1,7 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+
+nodejs_binary(
+    name = "create-npm-json",
+    entry_point = "merge_package.js",
+    visibility = ["//visibility:public"],
+)
