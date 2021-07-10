@@ -69,6 +69,7 @@ create_npm_json(name = "package-json")
 pkg_npm(
     name = "npm",
     substitutions = npm_substitutions,
+    tags = ["npm_public"],
     deps = [
         "ccm.js",
         ":bundle",

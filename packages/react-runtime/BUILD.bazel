@@ -64,6 +64,7 @@ pkg_npm(
     name = "npm",
     package_name = "@ccm/react-runtime",
     substitutions = npm_substitutions,
+    tags = ["npm_public"],
     deps = [
         ":bundle-cjs",
         ":bundle-esm",

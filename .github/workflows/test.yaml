@@ -1,8 +1,10 @@
 name: Test Packages
 
 on:
-  pull_request:
-    types: [assigned, opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -23,3 +25,18 @@ jobs:
 
       - name: Test Packages
         run: bazel test //... --config ci
+
+      - name: Build Packages
+        run: |
+          rm -rf .npm-pack && mkdir .npm-pack && cd .npm-pack
+          targets=$(bazel query 'attr(tags, "\bnpm_public\b", //packages/...)')
+          for target in ${targets[@]}; do
+            echo "Archiving $target"
+            bazel run $target.pack --config ci
+          done
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: npm-packages
+          path: .npm-pack/*.tgz
+          if-no-files-found: error

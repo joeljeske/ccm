@@ -59,6 +59,7 @@ pkg_npm(
         "//packages/templates:npm",
     ],
     substitutions = npm_substitutions,
+    tags = ["npm_public"],
     deps = [
         ":bundle",
         ":package.json",

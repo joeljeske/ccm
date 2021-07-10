@@ -15,6 +15,7 @@ pkg_npm(
         exclude = ["partial-package.json"],
     ),
     substitutions = npm_substitutions,
+    tags = ["npm_public"],
     visibility = ["//visibility:public"],
     deps = ["package.json"],
 )

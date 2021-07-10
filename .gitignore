@@ -1,3 +1,4 @@
 .bazel
 bazel-out
 node_modules
+.npm-pack
