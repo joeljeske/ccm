@@ -13,8 +13,8 @@ import { structureLocals } from "./structure-css-module-locals";
 export interface RuntimeArgs {
   filename: string;
   inputCSS: string;
-  runtimeModule: string;
-  templateType: string;
+  runtime: string;
+  templates: string;
   generateScopedName: GenerateScopedNameFn | "optimized" | "default";
 }
 
@@ -39,8 +39,8 @@ export const processCCM = async (
   });
 
   const renderTemplates = await createTemplateExpander({
-    runtimeModule: args.runtimeModule,
-    templateType: args.templateType,
+    runtimeModule: args.runtime,
+    templateType: args.templates,
   });
 
   return renderTemplates({

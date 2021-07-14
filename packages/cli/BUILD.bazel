@@ -10,6 +10,7 @@ ts_library(
     module_name = package_name(),
     deps = [
         "//packages/node-api:compile",
+        "@npm//@types/glob",
         "@npm//@types/minimist",
         "@npm//@types/node",
     ],
@@ -42,6 +43,7 @@ rollup(
         "@npm//@rollup/plugin-commonjs",
         "@npm//@rollup/plugin-node-resolve",
         "@npm//css-selector-tokenizer",
+        "@npm//glob",
         "@npm//lodash.template",
         "@npm//minimist",
         "@npm//postcss",

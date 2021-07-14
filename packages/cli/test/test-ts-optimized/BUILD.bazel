@@ -11,9 +11,9 @@ npm_package_bin(
     args = [
         "--outputRoot $(BINDIR)",
         "--inputRoot .",
-        "--generateScopedName optimized",
-        "--templateType typescript-source",
-        "--runtimeModule packages/react-runtime",
+        "--cssScoping optimized",
+        "--templates ts",
+        "--runtime packages/react-runtime",
         "$(location test.ccm.css)",
     ],
     data = ["test.ccm.css"],

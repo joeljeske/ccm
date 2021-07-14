@@ -2,8 +2,8 @@
   "name": "packages/react-runtime",
   "version": "0.0.0-PLACEHOLDER",
   "description": "React runtime for CSS Component Modules - CCM",
-  "main": "cjs/main.js",
-  "module": "ems/main.js",
+  "main": "./cjs/main.js",
+  "module": "./esm/main.js",
   "types": "index.d.ts",
   "keywords": [
     "CSS",

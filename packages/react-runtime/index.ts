@@ -84,7 +84,7 @@ export const createComponent = <
       return createElement(tag as any, {
         ...remainingProps,
         ref,
-        className,
+        className: className.trim(),
         style,
       });
     });
