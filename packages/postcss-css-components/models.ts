@@ -99,6 +99,11 @@ export class CCMFile {
             mostRecentComponent.classModifiers.add(selectorNode.name);
             break;
 
+          case "universal":
+            throw new Error(
+              `[CCM] Universal selectors are not allowed: ${selector}`
+            );
+
           default:
             throw new Error(
               `[CCM] Unexpected selector node type "${selectorNode.type}": ${selector}`

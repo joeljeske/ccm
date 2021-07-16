@@ -37,9 +37,7 @@ export interface CcmOutputFile {
 export const createTemplateExpander = async (
   opts: CcmTemplateOptions
 ): Promise<(data: CcmTemplateData) => CcmOutputFile[]> => {
-  const baseDirname = path.dirname(
-    require.resolve("packages/templates/package.json")
-  );
+  const baseDirname = path.join(__dirname, "templates");
   const templateDir = path.resolve(baseDirname, opts.templateType);
   const templateMetaFile = path.join(templateDir, "ccm-templates.json");
 

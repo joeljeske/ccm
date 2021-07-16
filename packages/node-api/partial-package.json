@@ -9,9 +9,7 @@
     "CCM",
     "CSS-in-JS"
   ],
-  "dependencies": {
-    "packages/templates": "0.0.0-PLACEHOLDER"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {}
 }

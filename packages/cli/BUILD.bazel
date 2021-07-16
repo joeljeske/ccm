@@ -1,8 +1,15 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "copy_to_bin", "nodejs_binary", "pkg_npm")
+load("@build_bazel_rules_nodejs//:index.bzl", "copy_to_bin", "nodejs_binary", "npm_package_bin", "pkg_npm")
 load("@npm//@bazel/typescript:index.bzl", "ts_library")
 load("@npm//rollup:index.bzl", "rollup")
 load("//tools/create-npm-json:index.bzl", "create_npm_json")
 load("//:npm_substitutions.bzl", "npm_substitutions")
+
+npm_package_bin(
+    name = "templates",
+    args = ["$(@D)"],
+    output_dir = True,
+    tool = "//packages/templates:copy",
+)
 
 ts_library(
     name = "compile",
@@ -60,7 +67,7 @@ nodejs_binary(
     name = "cli",
     data = [
         "main.js",
-        "//packages/templates:npm",
+        ":templates",
     ],
     entry_point = ":srcs",
     visibility = ["//visibility:public"],
@@ -76,5 +83,6 @@ pkg_npm(
         "ccm.js",
         ":bundle",
         ":package.json",
+        ":templates",
     ],
 )
