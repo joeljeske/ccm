@@ -50,7 +50,7 @@ export async function main(rawArgs: string[]): Promise<void> {
     inputRoot = process.cwd(),
     outputRoot = path.resolve(process.cwd(), ".ccm"),
     cssScoping = "default",
-    runtime = "packages/react-runtime",
+    runtime = "packages/react",
     templates = "js",
     _: inputs,
   } = args;

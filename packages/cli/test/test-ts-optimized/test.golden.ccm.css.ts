@@ -2,7 +2,7 @@
 /* eslint-disable */
 /* tslint:disable */
 
-import { createComponent } from 'packages/react-runtime';
+import { createComponent } from 'packages/react';
 import './test.css';
 
 

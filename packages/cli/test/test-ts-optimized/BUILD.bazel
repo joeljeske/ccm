@@ -13,7 +13,7 @@ npm_package_bin(
         "--inputRoot .",
         "--cssScoping optimized",
         "--templates ts",
-        "--runtime packages/react-runtime",
+        "--runtime packages/react",
         "$(location test.ccm.css)",
     ],
     data = ["test.ccm.css"],

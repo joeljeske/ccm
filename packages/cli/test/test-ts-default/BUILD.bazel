@@ -12,7 +12,7 @@ npm_package_bin(
         "--outputRoot $(BINDIR)",
         "--inputRoot .",
         "--templates ts",
-        "--runtime packages/react-runtime",
+        "--runtime packages/react",
         "$(location test.ccm.css)",
     ],
     data = ["test.ccm.css"],

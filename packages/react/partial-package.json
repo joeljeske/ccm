@@ -1,5 +1,5 @@
 {
-  "name": "packages/react-runtime",
+  "name": "packages/react",
   "version": "0.0.0-PLACEHOLDER",
   "description": "React runtime for CSS Component Modules - CCM",
   "main": "./cjs/main.js",
