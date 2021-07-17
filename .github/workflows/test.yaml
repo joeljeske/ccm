@@ -24,6 +24,8 @@ jobs:
         run: npm --global install @bazel/bazelisk@latest
 
       - name: Test Packages
+        env:
+          NPM_TOKEN: ""
         run: bazel test //... --config ci
 
       - name: Build Packages
