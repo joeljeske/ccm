@@ -1,4 +1,4 @@
-name: Bump Package Version
+name: Release & Publish New Version
 
 on:
   workflow_dispatch: {}
@@ -9,17 +9,40 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install Bazel
+        run: npm --global install @bazel/bazelisk@latest
+
+      - name: Test Packages
+        env:
+          NPM_TOKEN: ""
+        run: bazel test //... --config ci
+
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish NPM Packages
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          targets=$(bazel query 'attr(tags, "\bnpm_public\b", //packages/...)')
+          for target in ${targets[@]}; do
+            echo "Publishing $target"
+            bazel run $target.publish --config ci
+          done
+
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          dry_run: true
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           release_name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
