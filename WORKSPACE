@@ -15,6 +15,10 @@ node_repositories(
 
 yarn_install(
     name = "npm",
+    environment = {
+        # Don't need to have a real token when just pulling
+        "NPM_TOKEN": "",
+    },
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
 )

@@ -51,6 +51,9 @@ test:debug  --test_arg=AUTO_DEBUG=1 --test_output=streamed --test_strategy=exclu
 # The node process will break before user code starts and wait for the debugger to connect.
 run:debug --define=VERBOSE_LOGS=1 -- --node_options=--inspect-brk
 
+# Local cache on
+build --disk_cache=~/.cache/bazel
 
 build:ci --workspace_status_command="./tools/workspace-status.sh"
 build:ci --stamp
+build:ci --disk_cache=
