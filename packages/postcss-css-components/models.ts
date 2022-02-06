@@ -2,8 +2,9 @@ import {
   ClassNode,
   parse as parseSelector,
   stringify as stringifySelector,
-} from "css-selector-tokenizer";
-import { GenerateScopedNameFn } from "./generated-scoped-name";
+} from 'css-selector-tokenizer';
+import { Declaration, Rule } from 'postcss';
+import { GenerateScopedNameFn } from './generated-scoped-name';
 
 const isValidComponentName = (name: string) => {
   // Enforces PascalCaseFormat:
@@ -45,15 +46,15 @@ export class CCMFile {
         properties: Array.from(component.customProperties),
       };
     }
-    return Buffer.from(JSON.stringify(metadata)).toString("base64");
+    return Buffer.from(JSON.stringify(metadata)).toString('base64');
   }
 
-  activateSelector(selectors: string[]): string {
+  activateSelector(rule: Rule): string {
     // Reset this
     this.activatedComponents = new Set();
 
     // The selectors is a list of selectors potentially separated by commas
-    for (const selector of selectors) {
+    for (const selector of rule.selectors) {
       // We have already been identified that the selector does not have csv,
       // so we take just first selector node set
       const selectorNodes = parseSelector(selector).nodes[0].nodes;
@@ -61,52 +62,54 @@ export class CCMFile {
 
       for (const selectorNode of selectorNodes) {
         switch (selectorNode.type) {
-          case "id":
-            throw new Error(`[CCM] Cannot use ID selectors: ${selector}`);
+          case 'id':
+            throw rule.error(`Cannot use ID selectors: ${selector}`, {
+              plugin: 'CCM',
+            });
 
-          case "attribute":
-            throw new Error(
-              `[CCM] Cannot use Attribute selectors: ${selector}`
-            );
+          case 'attribute':
+            throw rule.error(`Cannot use Attribute selectors: ${selector}`, {
+              plugin: 'CCM',
+            });
 
-          case "operator":
-          case "spacing":
+          case 'operator':
+          case 'spacing':
             // When we encounter these node types, we know that the most recently component is no longer active,
             // meaning the next block will need to contain its own component
             mostRecentComponent = null;
             break;
 
-          case "element":
+          case 'element':
             if (!isValidComponentName(selectorNode.name)) {
-              throw new Error(
-                `[CCM] Component names must be in PascalCaseFormat: ${selector}`
+              throw rule.error(
+                `Component names must be in PascalCaseFormat: ${selector}`
               );
             }
             mostRecentComponent = this.trackComponent(selectorNode.name);
             break;
 
-          case "class":
+          case 'class':
             if (!mostRecentComponent) {
-              throw new Error(
-                `[CCM] Class selectors must be a modifier on a component: ${selector}`
+              throw rule.error(
+                `Class selectors must be a modifier on a component: ${selector}`
               );
             }
             if (!isValidModifierName(selectorNode.name)) {
-              throw new Error(
-                `[CCM] Component modifiers must be camelCaseFormat: ${selector}`
+              throw rule.error(
+                `Component modifiers must be camelCaseFormat: ${selector}`
               );
             }
             mostRecentComponent.classModifiers.add(selectorNode.name);
             break;
 
-          case "universal":
-            throw new Error(
-              `[CCM] Universal selectors are not allowed: ${selector}`
+          case 'universal':
+            throw rule.error(
+              `Universal selectors are not allowed: ${selector}`
             );
 
           default:
-            throw new Error(
-              `[CCM] Unexpected selector node type "${selectorNode.type}": ${selector}`
+            throw rule.error(
+              `Unexpected selector node type "${selectorNode.type}": ${selector}`
             );
         }
       }
@@ -118,13 +121,14 @@ export class CCMFile {
       }
     }
 
-    return this.rewriteComponentSelectors(selectors.join(", "));
+    return this.rewriteComponentSelectors(rule.selectors.join(', '));
   }
 
-  trackDeclaration(prop: string, value: string): /* rewritten value */ string {
-    if (prop.startsWith("--")) {
-      throw new Error(
-        `[CCM] Custom Properties cannot be set directly within files: ${prop}`
+  trackDeclaration(decl: Declaration): /* rewritten value */ string {
+    const { prop, value } = decl;
+    if (prop.startsWith('--')) {
+      throw decl.error(
+        `Custom Properties cannot be set directly within files: ${prop}`
       );
     }
 
@@ -135,8 +139,8 @@ export class CCMFile {
       (wholeMatch, whitespace, customPropName) => {
         customPropName = customPropName.trim();
         if (!isValidCustomPropName(customPropName)) {
-          throw new Error(
-            `[CCM] Custom Properties must be in "--camelCaseFormat": ${wholeMatch})`
+          throw decl.error(
+            `Custom Properties must be in "--camelCaseFormat": ${wholeMatch})`
           );
         }
         const scopedPropName = this.trackCustomProp(customPropName);
@@ -153,9 +157,9 @@ export class CCMFile {
     const parsed = parseSelector(csvSelector);
     for (const selector of parsed.nodes) {
       for (const node of selector.nodes) {
-        if (node.type === "element") {
+        if (node.type === 'element') {
           // We force overwrite the selector to be a class instead of an element
-          (node as unknown as ClassNode).type = "class";
+          (node as unknown as ClassNode).type = 'class';
         }
       }
     }
@@ -174,7 +178,7 @@ export class CCMFile {
     customPropName = customPropName.trim();
     if (!this.customPropMapping.has(customPropName)) {
       const scopedPropName =
-        "--" + this.scopeCustomProp(customPropName, this.cssFilePath, "");
+        '--' + this.scopeCustomProp(customPropName, this.cssFilePath, '');
       this.customPropMapping.set(customPropName, scopedPropName);
     }
     return this.customPropMapping.get(customPropName) as string;

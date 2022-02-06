@@ -1,8 +1,22 @@
 /* Auto generated CSS file from: "test.ccm.css" */
 /* stylelint-disable */
 
-.c1a0cf176c04e06e.035978d0eaaf53a2 {
-    color: var(--f42553073626d360)
+.cc1a0cf176c.c035978d0ea {
+  color: var(--cf425530736);
+  animation: ce5a89cf00a;
+}
 
+@media screen {
+  .cc1a0cf176c {
+    max-width: var(--c307333c51a);
+  }
+}
+@keyframes ce5a89cf00a {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 

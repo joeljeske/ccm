@@ -1,4 +1,18 @@
 SomeComponent.otherClass {
-    color: var(--prop1)
+  color: var(--prop1);
+  animation: my-animation;
+}
 
+@media screen {
+  SomeComponent {
+    max-width: var(--prop2);
+  }
+}
+@keyframes my-animation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

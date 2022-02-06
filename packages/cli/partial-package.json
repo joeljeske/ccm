@@ -11,7 +11,9 @@
     "CCM",
     "CSS-in-JS"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "chokidar": "^3.5.3"
+  },
   "devDependencies": {},
   "peerDependencies": {}
 }

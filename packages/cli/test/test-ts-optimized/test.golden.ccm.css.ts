@@ -10,14 +10,15 @@ import './test.css';
 export const SomeComponent = createComponent(
   "SomeComponent",
   /* Base Element Class */
-  "3d44a9eeecd7929b",
+  "c3d44a9eeec",
   /* CSS Modifier Class Mappings */
   {
-    "$otherClass": "59fdf051f608732e"
+    "$otherClass": "c59fdf051f6"
 },
   /* CSS Custom Property Mappings */
   {
-    "$--prop1": "--506254e9460ef7ed"
+    "$--prop1": "--c506254e946",
+    "$--prop2": "--c981daa9b25"
 }
 );
 
@@ -25,6 +26,7 @@ export const SomeComponent = createComponent(
 export interface SomeComponentCCM {
   /** SomeComponent Component Custom Properties */
   '$--prop1': string;
+  '$--prop2': string;
 
   /** SomeComponent Modifier Flags */
   '$otherClass'?: boolean;

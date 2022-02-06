@@ -1,21 +1,21 @@
-import { Plugin } from "postcss";
-import { CCMFile } from "./models";
+import { AtRule, Plugin } from 'postcss';
+import { CCMFile } from './models';
 import {
   GenerateScopedNameFn,
   selectGenerateScopedNameFn,
-} from "./generated-scoped-name";
+} from './generated-scoped-name';
 
 export interface PostcssCCMOptions {
-  generateScopedName?: GenerateScopedNameFn | "optimized" | "default";
+  generateScopedName?: GenerateScopedNameFn | 'optimized' | 'default';
 }
 
 export const createCcmPlugin = (opts: PostcssCCMOptions = {}): Plugin => ({
-  postcssPlugin: "postcss-ccm",
+  postcssPlugin: 'CCM',
   Once(root, helpers) {
-    const filePath = root.source?.input.from.replace(/\\/g, "/");
+    const filePath = root.source?.input.from.replace(/\\/g, '/');
     if (!filePath) {
-      throw new Error(
-        "Expected to be provided filepath to css file: `{ from: string }`"
+      throw root.error(
+        'Expected to be provided filepath to css file: `{ from: string }`'
       );
     }
 
@@ -23,11 +23,30 @@ export const createCcmPlugin = (opts: PostcssCCMOptions = {}): Plugin => ({
       filePath,
       selectGenerateScopedNameFn(opts.generateScopedName)
     );
-
     root.walkRules((rule) => {
-      rule.selector = file.activateSelector(rule.selectors);
+      if (rule.parent?.type === 'atrule') {
+        switch ((rule.parent as any).name) {
+          case 'page':
+          case 'font-face':
+          case 'keyframes':
+          case 'viewport':
+          case 'counter-style':
+          case 'font-feature-values':
+          case 'property':
+          case 'color-profile':
+            // Bail early, we don't process these as CCM
+            return;
+
+          case 'media':
+          case 'supports':
+          case 'document':
+          default:
+          // Continue
+        }
+      }
+      rule.selector = file.activateSelector(rule);
       rule.walkDecls((decl) => {
-        decl.value = file.trackDeclaration(decl.prop, decl.value);
+        decl.value = file.trackDeclaration(decl);
       });
     });
 
@@ -36,10 +55,10 @@ export const createCcmPlugin = (opts: PostcssCCMOptions = {}): Plugin => ({
     // Add at the end a `:export { CCM_METADATA_EXPORT: some-long-base64-value }`
     root.append(
       helpers.rule({
-        selector: ":export",
+        selector: ':export',
         nodes: [
           helpers.decl({
-            prop: "__CCM_METADATA_EXPORT__",
+            prop: '__CCM_METADATA_EXPORT__',
             value: meta,
           }),
           // Add the custom property output here

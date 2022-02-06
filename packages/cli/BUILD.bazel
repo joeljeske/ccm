@@ -17,6 +17,7 @@ ts_library(
     module_name = package_name(),
     deps = [
         "//packages/node-api:compile",
+        "@npm//@types/chokidar",
         "@npm//@types/glob",
         "@npm//@types/minimist",
         "@npm//@types/node",
@@ -44,6 +45,7 @@ rollup(
         "--silent",
         "--plugin @rollup/plugin-node-resolve",
         "--plugin @rollup/plugin-commonjs",
+        "--external chokidar",
     ],
     data = [
         "esm",

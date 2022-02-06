@@ -10,13 +10,14 @@ import './test.css';
 export const SomeComponent = createComponent(
   "SomeComponent",
   /* Base Element Class */
-  "c1a0cf176c04e06e",
+  "cc1a0cf176c",
   /* CSS Modifier Class Mappings */
   {
-    "$otherClass": "035978d0eaaf53a2"
+    "$otherClass": "c035978d0ea"
 },
   /* CSS Custom Property Mappings */
   {
-    "$--prop1": "--f42553073626d360"
+    "$--prop1": "--cf425530736",
+    "$--prop2": "--c307333c51a"
 }
 );
