@@ -9,6 +9,7 @@ pkg_npm(
     substitutions = npm_substitutions,
     tags = ["npm_public"],
     deps = [
+        "README.md",
         ":package.json",
         "//packages/webpack/empty",
         "//packages/webpack/inline-loader:bundle",

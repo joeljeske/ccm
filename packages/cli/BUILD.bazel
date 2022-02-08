@@ -82,6 +82,7 @@ pkg_npm(
     substitutions = npm_substitutions,
     tags = ["npm_public"],
     deps = [
+        "README.md",
         "ccm.js",
         ":bundle",
         ":package.json",

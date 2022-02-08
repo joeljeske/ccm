@@ -65,6 +65,7 @@ pkg_npm(
     substitutions = npm_substitutions,
     tags = ["npm_public"],
     deps = [
+        "README.md",
         ":bundle-cjs",
         ":bundle-esm",
         ":dts",

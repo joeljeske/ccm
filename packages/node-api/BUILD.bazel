@@ -69,6 +69,7 @@ pkg_npm(
     substitutions = npm_substitutions,
     tags = ["npm_public"],
     deps = [
+        "README.md",
         ":bundle",
         ":package.json",
         ":templates",
