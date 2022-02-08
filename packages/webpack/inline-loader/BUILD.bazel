@@ -1,0 +1,43 @@
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@npm//rollup:index.bzl", "rollup")
+
+ts_library(
+    name = "compile",
+    srcs = glob(["*.ts"]),
+    module_name = package_name(),
+    visibility = ["//packages/webpack:__subpackages__"],
+    deps = [
+        "@npm//@types/node",
+        "@npm//@types/webpack",
+        "@npm//webpack",
+    ],
+)
+
+filegroup(
+    name = "esm",
+    srcs = [
+        "compile",
+    ],
+    output_group = "es6_sources",
+)
+
+rollup(
+    name = "bundle",
+    outs = ["loader.js"],
+    args = [
+        "$(RULEDIR)",
+        "--file $@",
+        "--format cjs",
+        "--exports named",
+        "--silent",
+        "--plugin @rollup/plugin-node-resolve",
+        "--plugin @rollup/plugin-commonjs",
+        "--external webpack",
+    ],
+    data = [
+        "esm",
+        "@npm//@rollup/plugin-commonjs",
+        "@npm//@rollup/plugin-node-resolve",
+    ],
+    visibility = ["//packages/webpack:__pkg__"],
+)

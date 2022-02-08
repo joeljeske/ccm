@@ -1,0 +1,19 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_npm")
+load("//tools/create-npm-json:index.bzl", "create_npm_json")
+load("//:npm_substitutions.bzl", "npm_substitutions")
+
+create_npm_json(name = "package-json")
+
+pkg_npm(
+    name = "npm",
+    substitutions = npm_substitutions,
+    tags = ["npm_public"],
+    deps = [
+        ":package.json",
+        "//packages/webpack/empty",
+        "//packages/webpack/inline-loader:bundle",
+        "//packages/webpack/loader:bundle",
+        "//packages/webpack/loader:templates",
+        "//packages/webpack/plugin:bundle",
+    ],
+)

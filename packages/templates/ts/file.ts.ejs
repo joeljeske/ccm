@@ -3,7 +3,7 @@
 /* tslint:disable */
 
 import { createComponent } from '<%= runtimeModule %>';
-import './<%= fileBasename.replace('.ccm.css', '.css') %>';
+import '<%= generateImport(filename.replace('.ccm.css', '.css'), filename, processedCss) %>';
 
 <% components.forEach(({ name, base, modifiers, properties }) => { %>
 /** Base <%= name %> component */

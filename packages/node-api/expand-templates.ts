@@ -1,14 +1,17 @@
-import ejs from "lodash.template";
-import { promisify } from "util";
-import * as fs from "fs";
-import * as path from "path";
+import ejs from 'lodash.template';
+import { promisify } from 'util';
+import * as fs from 'fs';
+import * as path from 'path';
+import type { GenerateImport } from '.';
 
 const readFile = promisify(fs.readFile);
 
 export interface CcmTemplateData {
+  filename: string;
   fileBasename: string;
   processedCss: string;
   components: CcmMetadata[];
+  generateImport: GenerateImport;
 }
 
 export interface CcmMetadata {
@@ -37,12 +40,12 @@ export interface CcmOutputFile {
 export const createTemplateExpander = async (
   opts: CcmTemplateOptions
 ): Promise<(data: CcmTemplateData) => CcmOutputFile[]> => {
-  const baseDirname = path.join(__dirname, "templates");
+  const baseDirname = path.join(__dirname, 'templates');
   const templateDir = path.resolve(baseDirname, opts.templateType);
-  const templateMetaFile = path.join(templateDir, "ccm-templates.json");
+  const templateMetaFile = path.join(templateDir, 'ccm-templates.json');
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const templateMeta = JSON.parse(await readFile(templateMetaFile, "utf8")) as {
+  const templateMeta = JSON.parse(await readFile(templateMetaFile, 'utf8')) as {
     files?: Array<{
       source: string;
       outputName: string;
@@ -57,7 +60,7 @@ export const createTemplateExpander = async (
       }): Promise<(data: CcmTemplateData) => CcmOutputFile> => {
         const templateFile = await readFile(
           path.resolve(templateDir, source),
-          "utf8"
+          'utf8'
         );
         const filenameTemplate = ejs(outputName);
         const fileTemplate = ejs(templateFile);

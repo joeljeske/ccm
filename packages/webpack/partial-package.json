@@ -1,0 +1,17 @@
+{
+  "name": "packages/webpack",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Webpack plugin to handle building CSS Component Modules - CCM",
+  "main": "./plugin/plugin.js",
+  "keywords": [
+    "CSS",
+    "CCM",
+    "CSS-in-JS",
+    "Webpack"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {
+    "webpack": "^4.30.0 || ^5.20.2"
+  }
+}

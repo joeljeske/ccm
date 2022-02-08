@@ -4,4 +4,5 @@ npm_substitutions = {
     "packages/node-api": "@css-components/node-api",
     "packages/cli": "@css-components/cli",
     "packages/postcss-css-components": "@css-components/postcss",
+    "packages/webpack": "@css-components/webpack",
 }

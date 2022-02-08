@@ -1,0 +1,9 @@
+filegroup(
+    name = "empty",
+    srcs = [
+        "empty.cjs.js",
+        "empty.esm.js",
+        "package.json",
+    ],
+    visibility = ["//packages/webpack:__pkg__"],
+)

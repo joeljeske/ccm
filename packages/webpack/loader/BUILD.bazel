@@ -1,31 +1,25 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "npm_package_bin")
 load("@npm//@bazel/typescript:index.bzl", "ts_library")
 load("@npm//rollup:index.bzl", "rollup")
-load("@build_bazel_rules_nodejs//:index.bzl", "npm_package_bin", "pkg_npm")
-load("//tools/create-npm-json:index.bzl", "create_npm_json")
-load("//:npm_substitutions.bzl", "npm_substitutions")
 
 npm_package_bin(
     name = "templates",
     args = ["$(@D)"],
     output_dir = True,
     tool = "//packages/templates:copy",
+    visibility = ["//packages/webpack:__pkg__"],
 )
 
 ts_library(
     name = "compile",
     srcs = glob(["*.ts"]),
     module_name = package_name(),
-    visibility = [
-        # bundled into these packages:
-        "//packages/cli:__pkg__",
-        "//packages/webpack/loader:__pkg__",
-    ],
+    visibility = ["//packages/webpack:__subpackages__"],
     deps = [
-        "//packages/postcss-css-components:compile",
-        "@npm//@types/lodash.template",
-        "@npm//@types/minimist",
+        "//packages/node-api:compile",
         "@npm//@types/node",
-        "@npm//postcss",
+        "@npm//@types/webpack",
+        "@npm//webpack",
     ],
 )
 
@@ -33,6 +27,7 @@ filegroup(
     name = "esm",
     srcs = [
         "compile",
+        "//packages/node-api:compile",
         "//packages/postcss-css-components:compile",
     ],
     output_group = "es6_sources",
@@ -40,7 +35,7 @@ filegroup(
 
 rollup(
     name = "bundle",
-    outs = ["main.js"],
+    outs = ["loader.js"],
     args = [
         "$(RULEDIR)",
         "--file $@",
@@ -49,28 +44,18 @@ rollup(
         "--silent",
         "--plugin @rollup/plugin-node-resolve",
         "--plugin @rollup/plugin-commonjs",
+        "--external webpack",
     ],
     data = [
         "esm",
         "@npm//@rollup/plugin-commonjs",
         "@npm//@rollup/plugin-node-resolve",
         "@npm//css-selector-tokenizer",
+        "@npm//glob",
         "@npm//lodash.template",
         "@npm//minimist",
         "@npm//postcss",
         "@npm//postcss-modules",
     ],
-)
-
-create_npm_json(name = "package-json")
-
-pkg_npm(
-    name = "npm",
-    substitutions = npm_substitutions,
-    tags = ["npm_public"],
-    deps = [
-        ":bundle",
-        ":package.json",
-        ":templates",
-    ],
+    visibility = ["//packages/webpack:__pkg__"],
 )
