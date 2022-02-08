@@ -12,9 +12,11 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "preinstall": "bazel build --config ci //packages/webpack:npm //packages/react:npm",
+    
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,5 +36,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@css-components/react": "link:../../.bazel/bin/packages/react/npm",
+    "@css-components/webpack": "link:../../.bazel/bin/packages/webpack/npm",
+    "react-app-rewired": "^2.1.11"
   }
 }
