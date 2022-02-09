@@ -62,8 +62,10 @@ create_npm_json(name = "package-json")
 
 pkg_npm(
     name = "npm",
+    package_name = npm_substitutions[package_name()],
     substitutions = npm_substitutions,
     tags = ["npm_public"],
+    visibility = ["//visibility:public"],
     deps = [
         "README.md",
         ":bundle-cjs",

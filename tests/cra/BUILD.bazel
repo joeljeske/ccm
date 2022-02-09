@@ -1,0 +1,39 @@
+load("@test_cra_npm_deps//react-app-rewired:index.bzl", "react_app_rewired")
+load("@npm//@bazel/jasmine:index.bzl", "jasmine_node_test")
+
+package(default_testonly = True)
+
+filegroup(
+    name = "srcs",
+    srcs = glob([
+        "src/**/*",
+        "public/**/*",
+    ]) + [
+        "package.json",
+        "config-overrides.js",
+    ],
+)
+
+react_app_rewired(
+    name = "build",
+    args = [
+        "--node_options=--require=../../$(location :bootstrap.js)",
+        "build",
+        "../../$(@D)",
+    ],
+    chdir = package_name(),
+    data = [
+        "bootstrap.js",
+        ":srcs",
+        "@test_cra_npm_deps//:node_modules",
+        "@test_cra_npm_deps//@css-components/react",
+        "@test_cra_npm_deps//@css-components/webpack",
+    ],
+    output_dir = True,
+)
+
+jasmine_node_test(
+    name = "test",
+    srcs = ["build.test.js"],
+    data = ["build"],
+)

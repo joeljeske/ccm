@@ -27,3 +27,7 @@ yarn_install(
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
 )
+
+load("//tests:repositories.bzl", "test_repositories")
+
+test_repositories()
