@@ -1,0 +1,40 @@
+load("@test_rollup_npm_deps//rollup:index.bzl", "rollup")
+load("@npm//@bazel/jasmine:index.bzl", "jasmine_node_test")
+
+package(default_testonly = True)
+
+filegroup(
+    name = "srcs",
+    srcs = glob([
+        "src/**/*",
+        "public/**/*",
+    ]),
+)
+
+rollup(
+    name = "build",
+    args = [
+        "-c",
+        "rollup.config.js",
+        "--dir",
+        "../../$(@D)",
+        "--entryFileNames",
+        "[name]-[hash].js",
+    ],
+    chdir = package_name(),
+    data = [
+        "babel.config.json",
+        "rollup.config.js",
+        ":srcs",
+        "@test_rollup_npm_deps//:node_modules",
+        "@test_rollup_npm_deps//@css-components/react",
+        "@test_rollup_npm_deps//@css-components/rollup",
+    ],
+    output_dir = True,
+)
+
+jasmine_node_test(
+    name = "test",
+    srcs = ["build.test.js"],
+    data = ["build"],
+)

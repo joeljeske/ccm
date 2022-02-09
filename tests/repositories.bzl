@@ -10,3 +10,13 @@ def test_repositories():
             "@css-components/webpack": "//packages/webpack:npm",
         },
     )
+
+    yarn_install(
+        name = "test_rollup_npm_deps",
+        yarn_lock = "//tests/rollup:yarn.lock",
+        package_json = "//tests/rollup:package.json",
+        links = {
+            "@css-components/react": "//packages/react:npm",
+            "@css-components/rollup": "//packages/rollup:npm",
+        },
+    )
