@@ -1,8 +1,8 @@
-load("@npm//@bazel/typescript:index.bzl", "ts_library")
-load("@npm//rollup:index.bzl", "rollup")
 load("@build_bazel_rules_nodejs//:index.bzl", "npm_package_bin", "pkg_npm")
 load("//tools/create-npm-json:index.bzl", "create_npm_json")
 load("//:npm_substitutions.bzl", "npm_substitutions")
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@npm//rollup:index.bzl", "rollup")
 
 npm_package_bin(
     name = "templates",
@@ -15,18 +15,11 @@ ts_library(
     name = "compile",
     srcs = glob(["*.ts"]),
     module_name = package_name(),
-    visibility = [
-        # bundled into these packages:
-        "//packages/cli:__pkg__",
-        "//packages/rollup:__pkg__",
-        "//packages/webpack/loader:__pkg__",
-    ],
     deps = [
-        "//packages/postcss-css-components:compile",
-        "@npm//@types/lodash.template",
-        "@npm//@types/minimist",
+        "//packages/node-api:compile",
+        "@npm//@rollup/pluginutils",
         "@npm//@types/node",
-        "@npm//postcss",
+        "@npm//rollup",
     ],
 )
 
@@ -34,6 +27,7 @@ filegroup(
     name = "esm",
     srcs = [
         "compile",
+        "//packages/node-api:compile",
         "//packages/postcss-css-components:compile",
     ],
     output_group = "es6_sources",
@@ -41,7 +35,7 @@ filegroup(
 
 rollup(
     name = "bundle",
-    outs = ["main.js"],
+    outs = ["plugin.js"],
     args = [
         "$(RULEDIR)",
         "--file $@",
@@ -50,6 +44,8 @@ rollup(
         "--silent",
         "--plugin @rollup/plugin-node-resolve",
         "--plugin @rollup/plugin-commonjs",
+        "--external rollup",
+        "--external @rollup/pluginutils",
     ],
     data = [
         "esm",
@@ -57,7 +53,6 @@ rollup(
         "@npm//@rollup/plugin-node-resolve",
         "@npm//css-selector-tokenizer",
         "@npm//lodash.template",
-        "@npm//minimist",
         "@npm//postcss",
         "@npm//postcss-modules",
     ],
@@ -67,8 +62,10 @@ create_npm_json(name = "package-json")
 
 pkg_npm(
     name = "npm",
+    package_name = npm_substitutions[package_name()],
     substitutions = npm_substitutions,
     tags = ["npm_public"],
+    visibility = ["//visibility:public"],
     deps = [
         "README.md",
         ":bundle",

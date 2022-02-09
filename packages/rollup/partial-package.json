@@ -1,0 +1,17 @@
+{
+  "name": "packages/rollup",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Rollup plugin to handle building CSS Component Modules - CCM",
+  "main": "./plugin.js",
+  "keywords": [
+    "CSS",
+    "CCM",
+    "CSS-in-JS",
+    "Rollup"
+  ],
+  "dependencies": {
+    "@rollup/pluginutils": "^4.1.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

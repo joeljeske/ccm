@@ -40,6 +40,33 @@ module.exports = function override(config, env) {
 
 ## Rollup
 
+To use CCM with rollup, you can modify your config with the following plugins.
+
+```sh
+yarn add @css-components/rollup @css-components/react rollup-plugin-postcss
+```
+
+```js
+// rollup.config.js
+
+import ccm from '@css-components/rollup';
+import postcss from 'rollup-plugin-postcss';
+
+export default {
+  // ...
+  plugins: [
+    // CCM Handles all the transform of the ccm.css files
+    ccm(),
+
+    // PostCSS plugin picks up the CSS and can be configured as normal
+    postcss({
+      extract: true,
+      exclude: '**/*.ccm.css',
+    }),
+  ],
+};
+```
+
 ## ESBuild
 
 ## Vite

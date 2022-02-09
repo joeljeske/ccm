@@ -3,12 +3,11 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "preinstall": "bazel build --config ci //packages/rollup:npm //packages/react:npm",
+
         "start": "run-s build serve",
         "serve": "http-server public",
-        "build": "run-s build:*",
-        "build:clean": "del .ccm public/dist",
-        "build:ccm": "ccm",
-        "build:rollup": "rollup -c rollup.config.js"
+        "build": "rollup -c rollup.config.js"
     },
     "devDependencies": {
         "@babel/core": "7.14.6",
@@ -27,8 +26,8 @@
         "rollup-plugin-postcss": "3.1.8"
     },
     "dependencies": {
-        "@css-components/cli": "0.0.4",
-        "@css-components/react": "0.0.4",
+        "@css-components/react": "link:../../.bazel/bin/packages/react/npm",
+        "@css-components/rollup": "link:../../.bazel/bin/packages/rollup/npm",
         "react": "17.0.2",
         "react-dom": "17.0.2"
     }
