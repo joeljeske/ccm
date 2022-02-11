@@ -9,6 +9,10 @@ def test_repositories():
             "@css-components/react": "//packages/react:npm",
             "@css-components/webpack": "//packages/webpack:npm",
         },
+        environment = {
+            # Don't need to have a real token when just pulling
+            "NPM_TOKEN": "",
+        },
     )
 
     yarn_install(
@@ -18,5 +22,9 @@ def test_repositories():
         links = {
             "@css-components/react": "//packages/react:npm",
             "@css-components/rollup": "//packages/rollup:npm",
+        },
+        environment = {
+            # Don't need to have a real token when just pulling
+            "NPM_TOKEN": "",
         },
     )

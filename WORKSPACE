@@ -1,6 +1,10 @@
 workspace(
     name = "ccm",
-    managed_directories = {"@npm": ["node_modules"]},
+    managed_directories = {
+        "@npm": ["node_modules"],
+        "@test_cra_npm_deps": ["tests/cra/node_modules"],
+        "@test_rollup_npm_deps": ["tests/rollup/node_modules"],
+    },
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
